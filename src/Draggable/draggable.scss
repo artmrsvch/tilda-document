@@ -1,0 +1,100 @@
+.drag {
+    width: 97vw;
+    height: 97vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkgray;
+}
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 15px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.drag-category {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+}
+.drag-subCategory {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin-right: 10px;
+}
+.drag-subCategory__btn-wrap {
+    cursor: pointer;
+}
+.drag-subCategory__btn {
+    align-self: flex-end;
+    position: relative;
+    width: 30px;
+    height: 3px;
+    transform: rotate(45deg);
+    border-radius: 1px;
+    background-color: gray;
+    cursor: pointer;
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        border-radius: 1px;
+        left: 0;
+        bottom: 0;
+        background-color: gray;
+        transform: rotate(90deg);
+    }
+}
+.drag-subCategory__list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+.drag-zone {
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: white;
+}
+.drag-category__item {
+    box-sizing: border-box;
+    background-color: inherit;
+    padding: 0 25px;
+    width: 100%;
+    height: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.drag-subCategory__item {
+    width: 100%;
+    height: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.drag-zone__header {
+    height: 20%;
+    width: 100%;
+}
+.drag-zone__main {
+    height: 60%;
+}
+.drag-zone__footer {
+    height: 20%;
+}
