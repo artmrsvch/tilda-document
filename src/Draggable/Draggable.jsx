@@ -1,93 +1,79 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import { category, subCategory } from "./settigs";
+import { category } from "./settigs";
 import DragZones from "./DragZones";
 
 function Draggable() {
-    const [state, setState] = useState({ isOpen: false, subArray: null });
-    let currentNode;
-    const dragStart = e => {
-        e.dataTransfer.setData("text/html", "dragstart");
-        currentNode = {
-            category: state.category,
-            target: e.target.textContent
-        };
-    };
-    const dragEnd = e => {};
-    const dragEnter = ({ target }) => {
-        target.style.border = "2px dashed black";
-    };
-    const dragLeave = ({ target }) => {
-        target.style.border = "none";
-    };
-    const dragOver = e => e.preventDefault();
+    const [state, setState] = useState({ subArray: null, currentNode: null });
 
-    const dragDrop = ({ target }) => {
-        target.style.border = "none";
-        if (target.getAttribute("zone") === currentNode.category) {
-            ReactDOM.render(getComponent(currentNode.category, currentNode.target), target);
-        }
-    };
-    const getComponent = (category, name) => {
-        let temp;
-        subCategory.forEach(arr => {
-            if (arr.name === category) {
-                arr.presents.forEach(objComponet => {
-                    if (objComponet.subName === name) {
-                        temp = objComponet.component;
-                    }
-                });
+    const dragStart = e => {
+        //начало движения подкатегории
+        e.dataTransfer.setData("text/html", "dragstart"); //нужно для работы dnd в мозиле и еще некоторых браузеров
+        setState({
+            //записываем в стейт название категории и подкатегории
+            ...state,
+            currentNode: {
+                category: state.category,
+                target: e.target.getAttribute("name")
             }
         });
-        return temp;
     };
+
     const findSubCategory = name => {
+        //поиск подкатегории,принимает название категории, возвращает массив с компонентами категории
         let tempArr;
-        subCategory.forEach(arr => {
-            if (arr.name === name) {
-                tempArr = arr.presents;
+        category.forEach(objectCategory => {
+            //цикл по массиву категорий
+            if (objectCategory.name.toLowerCase() === name) {
+                //совпадение по названию категории
+                tempArr = objectCategory.presents; //записываем в переменную соответсвующий массив подкатегории
             }
         });
         return tempArr;
     };
     const closeSubList = ({ target }) => {
-        const list = target.parentNode;
-        list.style.transition = "0.3s";
+        //закрыть список подкатегорий
+        const list = target.parentNode; //элемент списка
+        list.style.transition = "0.3s"; //сворачиваем список подкатегорий
         list.style.padding = "0";
         list.style.overflow = "hidden";
         list.style.width = "0";
-        setState({ ...state, subArray: null, isOpen: false });
+        setState({ ...state, subArray: null }); //обнуляем в стейте массив подкатегорий
     };
     const clickForCategory = ({ target }) => {
-        const subCategory = target.parentNode.parentNode.children[1];
-        const result = findSubCategory(target.textContent);
+        //клик по категории
+        const subCategory = target.parentNode.parentNode.children[1]; //доступ к списку подкатегорий
+        const result = findSubCategory(target.getAttribute("name")); //сохраняем массив подкатегорий
 
-        subCategory.style.transition = "0.3s";
+        subCategory.style.transition = "0.3s"; //разворачиваем список подкатегорий
         subCategory.style.padding = "30px 25px";
         subCategory.style.overflow = "auto";
         subCategory.style.width = "25%";
-        setState({ category: target.textContent, subArray: result, isOpen: true });
+        setState({ category: target.getAttribute("name"), subArray: result }); // записываем в стейт список элементов в подкатегории  и название категории
     };
     return (
         <section className="drag">
             <div className="container">
                 <ul className="drag-category">
                     {category.map(({ name }, id) => (
-                        <li key={id} onClick={clickForCategory} className="drag-category__item">
+                        <li
+                            name={name.toLowerCase()}
+                            key={id}
+                            onClick={clickForCategory}
+                            className="drag-category__item"
+                        >
                             {name}
                         </li>
                     ))}
                 </ul>
                 <div className="drag-subCategory">
                     <div onClick={closeSubList} className="drag-subCategory__btn"></div>
-
                     <ul className="drag-subCategory__list">
                         {state.subArray &&
                             state.subArray.map(({ subName }, id) => (
                                 <li
+                                    name={subName.toLowerCase()}
                                     draggable
                                     onDragStart={dragStart}
-                                    onDragEnd={dragEnd}
                                     key={id}
                                     className="drag-subCategory__item"
                                 >
@@ -96,12 +82,7 @@ function Draggable() {
                             ))}
                     </ul>
                 </div>
-                <DragZones
-                    dragDrop={dragDrop}
-                    dragOver={dragOver}
-                    dragEnter={dragEnter}
-                    dragLeave={dragLeave}
-                />
+                <DragZones category={category} currentNode={state.currentNode} />
             </div>
         </section>
     );
