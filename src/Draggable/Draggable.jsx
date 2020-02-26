@@ -13,7 +13,7 @@ function Draggable() {
             ...state,
             currentNode: {
                 category: state.category,
-                target: e.target.getAttribute("name")
+                target: e.target.dataset.name
             }
         });
     };
@@ -42,13 +42,13 @@ function Draggable() {
     const clickForCategory = ({ target }) => {
         //клик по категории
         const subCategory = target.parentNode.parentNode.children[1]; //доступ к списку подкатегорий
-        const result = findSubCategory(target.getAttribute("name")); //сохраняем массив подкатегорий
+        const result = findSubCategory(target.dataset.name); //сохраняем массив подкатегорий
 
         subCategory.style.transition = "0.3s"; //разворачиваем список подкатегорий
         subCategory.style.padding = "30px 25px";
         subCategory.style.overflow = "auto";
         subCategory.style.width = "25%";
-        setState({ category: target.getAttribute("name"), subArray: result }); // записываем в стейт список элементов в подкатегории  и название категории
+        setState({ category: target.dataset.name, subArray: result }); // записываем в стейт список элементов в подкатегории  и название категории
     };
     return (
         <section className="drag">
@@ -56,7 +56,7 @@ function Draggable() {
                 <ul className="drag-category">
                     {category.map(({ name }, id) => (
                         <li
-                            name={name.toLowerCase()}
+                            data-name={name.toLowerCase()}
                             key={id}
                             onClick={clickForCategory}
                             className="drag-category__item"
@@ -71,7 +71,7 @@ function Draggable() {
                         {state.subArray &&
                             state.subArray.map(({ subName }, id) => (
                                 <li
-                                    name={subName.toLowerCase()}
+                                    data-name={subName.toLowerCase()}
                                     draggable
                                     onDragStart={dragStart}
                                     key={id}

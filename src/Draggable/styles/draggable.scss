@@ -6,6 +6,16 @@
     align-items: center;
     background-color: darkgray;
 }
+.component {
+    position: relative;
+    &:hover {
+        transition: 0.3s;
+        margin-top: 25px;
+    }
+}
+.component:hover .close {
+    display: block;
+}
 .container {
     box-sizing: border-box;
     width: 100%;
@@ -63,6 +73,9 @@
     flex-direction: column;
 }
 .drag-zone {
+    box-sizing: border-box;
+    padding: 5px;
+    overflow: auto;
     height: 100%;
     display: flex;
     flex: 1;
@@ -90,11 +103,15 @@
 }
 .drag-zone__header {
     height: 20%;
+    min-height: 20%;
     width: 100%;
 }
 .drag-zone__main {
-    height: 60%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 .drag-zone__footer {
     height: 20%;
+    min-height: 20%;
 }

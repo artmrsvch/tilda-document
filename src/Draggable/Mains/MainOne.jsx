@@ -1,8 +1,10 @@
 import React from "react";
+import ButtonDelete from "../Auxially/ButtonDelete";
 
 function MainOne() {
     return (
-        <div className="mainOne mains">
+        <div data-name="MainOne" className="mainOne mains component">
+            <ButtonDelete />
             <p className="mainOne__text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, amet asperiores
                 similique, doloremque veniam quasi molestias tempora debitis, eveniet impedit quam.

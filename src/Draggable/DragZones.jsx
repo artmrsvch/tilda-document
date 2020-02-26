@@ -12,16 +12,33 @@ function DragZones({ category, currentNode }) {
     const dragDrop = ({ target }) => {
         target.style.border = "none"; //снимаем подсветку бордера
         const thatDropZone = zoneSearh(target); //получаем дропзону
-        if (thatDropZone.getAttribute("zone") === currentNode.category) {
+        if (thatDropZone.dataset.zone === currentNode.category) {
             //разрешает дропать определенные категории только в соответ. зоны
             const appropriateComponent = getComponent(currentNode.category, currentNode.target); //получаем нужный компонент для рендера
-            setState({ ...state, [thatDropZone.getAttribute("zone")]: [appropriateComponent] }); //вписываем компонент в стейт
+            if (state[thatDropZone.dataset.zone]) {
+                //если в зоне уже есть компонент
+                if (thatDropZone.dataset.zone === "main") {
+                    //разрешаем добавлять несколько компонентов только в main
+                    const stateArr = state[thatDropZone.dataset.zone];
+                    stateArr.push(appropriateComponent);
+                    setState({
+                        ...state,
+                        [thatDropZone.dataset.zone]: stateArr
+                    });
+                } else {
+                    //если зона не main, то перезаписываем
+                    setState({ ...state, [thatDropZone.dataset.zone]: [appropriateComponent] });
+                }
+            } else {
+                //если зона пуста, то записываем туда компонент
+                setState({ ...state, [thatDropZone.dataset.zone]: [appropriateComponent] });
+            }
         }
     };
     const zoneSearh = target => {
         //рекурсивный обход DOM, поиск дроп зоны, возвращает зону
         //если DOMузел имеет атрибут zone, то возвращаем его, иначе идем на уровень выше
-        return target.getAttribute("zone") ? target : zoneSearh(target.parentNode);
+        return target.dataset.zone ? target : zoneSearh(target.parentNode);
     };
     const getComponent = (categoryName, subCategotyName) => {
         //поиск компонента по названию подкатегории, принимаем название категории и навзвание подкатегории
@@ -41,37 +58,42 @@ function DragZones({ category, currentNode }) {
         });
         return temp;
     };
-
+    const checkClick = e => {
+        e.stopPropagation(); // отменяем всплытие событий выше
+        if (e.target.dataset.btn) {
+            //обрабатываем клики только по кнопке
+            const thatComponent = e.target.parentNode; //получаем компонент
+            const thatDataAttrZone = thatComponent.parentNode.dataset.zone; //получаем дропзону
+            state[thatDataAttrZone].forEach((iterComponent, index) => {
+                if (iterComponent.name === thatComponent.dataset.name) {
+                    //нашли компонент в массиве отображенных
+                    const stateArr = state[thatDataAttrZone]; //склонировали стейт
+                    stateArr.splice(index, 1); //удалили из массива
+                    setState({
+                        //зафиксировали изменения
+                        ...state,
+                        [thatDataAttrZone]: stateArr
+                    });
+                }
+            });
+        }
+    };
     return (
-        <div className="drag-zone">
-            <header
-                zone="header"
-                onDragLeave={dragLeave}
-                onDragEnter={dragEnter}
-                onDragOver={dragOver}
-                onDrop={dragDrop}
-                className="drag-zone__header"
-            >
+        <div
+            onDragLeave={dragLeave}
+            onDragEnter={dragEnter}
+            onDragOver={dragOver}
+            onDrop={dragDrop}
+            onClick={checkClick}
+            className="drag-zone"
+        >
+            <header data-zone="header" className="drag-zone__header">
                 {state.header && state.header.map((Component, id) => <Component key={id} />)}
             </header>
-            <main
-                zone="main"
-                onDragLeave={dragLeave}
-                onDragEnter={dragEnter}
-                onDragOver={dragOver}
-                onDrop={dragDrop}
-                className="drag-zone__main"
-            >
+            <main data-zone="main" className="drag-zone__main">
                 {state.main && state.main.map((Component, id) => <Component key={id} />)}
             </main>
-            <footer
-                zone="footer"
-                onDragLeave={dragLeave}
-                onDragEnter={dragEnter}
-                onDragOver={dragOver}
-                onDrop={dragDrop}
-                className="drag-zone__footer"
-            >
+            <footer data-zone="footer" className="drag-zone__footer">
                 {state.footer && state.footer.map((Component, id) => <Component key={id} />)}
             </footer>
         </div>
