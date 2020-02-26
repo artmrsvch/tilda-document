@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/tilda-document/static/css/main.8a3cf70e.chunk.css",
-    "main.js": "/tilda-document/static/js/main.dbe7d000.chunk.js",
-    "main.js.map": "/tilda-document/static/js/main.dbe7d000.chunk.js.map",
+    "main.css": "/tilda-document/static/css/main.dabce92c.chunk.css",
+    "main.js": "/tilda-document/static/js/main.ca88dd42.chunk.js",
+    "main.js.map": "/tilda-document/static/js/main.ca88dd42.chunk.js.map",
     "runtime-main.js": "/tilda-document/static/js/runtime-main.4b2f80a4.js",
     "runtime-main.js.map": "/tilda-document/static/js/runtime-main.4b2f80a4.js.map",
     "static/js/2.3c702133.chunk.js": "/tilda-document/static/js/2.3c702133.chunk.js",
     "static/js/2.3c702133.chunk.js.map": "/tilda-document/static/js/2.3c702133.chunk.js.map",
     "index.html": "/tilda-document/index.html",
-    "precache-manifest.e347c4f6be832c860d669f412e690fb0.js": "/tilda-document/precache-manifest.e347c4f6be832c860d669f412e690fb0.js",
+    "precache-manifest.8fc624fbdef8161d0ed7d1495474158e.js": "/tilda-document/precache-manifest.8fc624fbdef8161d0ed7d1495474158e.js",
     "service-worker.js": "/tilda-document/service-worker.js",
-    "static/css/main.8a3cf70e.chunk.css.map": "/tilda-document/static/css/main.8a3cf70e.chunk.css.map",
+    "static/css/main.dabce92c.chunk.css.map": "/tilda-document/static/css/main.dabce92c.chunk.css.map",
     "static/js/2.3c702133.chunk.js.LICENSE.txt": "/tilda-document/static/js/2.3c702133.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4b2f80a4.js",
     "static/js/2.3c702133.chunk.js",
-    "static/css/main.8a3cf70e.chunk.css",
-    "static/js/main.dbe7d000.chunk.js"
+    "static/css/main.dabce92c.chunk.css",
+    "static/js/main.ca88dd42.chunk.js"
   ]
 }
