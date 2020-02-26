@@ -1,9 +1,9 @@
 import React from "react";
 import ButtonDelete from "../Auxially/ButtonDelete";
 
-function MainOne() {
+function MainOne({ iterKey }) {
     return (
-        <div data-name="MainOne" className="mainOne mains component">
+        <div data-key={iterKey} data-name="MainOne" className="mainOne mains component">
             <ButtonDelete />
             <p className="mainOne__text">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, amet asperiores

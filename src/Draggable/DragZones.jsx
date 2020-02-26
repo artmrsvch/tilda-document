@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function DragZones({ category, currentNode }) {
-    const [state, setState] = useState({ header: null, footer: null, main: null });
+    const [state, setState] = useState({ header: [], footer: [], main: [] });
     const dragOver = e => e.preventDefault(); //без этого не работает дроп
     const dragEnter = ({ target }) => {
         target.style.border = "2px dashed black"; //подсвечиваем зону под курсором
@@ -15,23 +15,30 @@ function DragZones({ category, currentNode }) {
         if (thatDropZone.dataset.zone === currentNode.category) {
             //разрешает дропать определенные категории только в соответ. зоны
             const appropriateComponent = getComponent(currentNode.category, currentNode.target); //получаем нужный компонент для рендера
-            if (state[thatDropZone.dataset.zone]) {
+            if (state[thatDropZone.dataset.zone].length) {
                 //если в зоне уже есть компонент
                 if (thatDropZone.dataset.zone === "main") {
                     //разрешаем добавлять несколько компонентов только в main
-                    const stateArr = state[thatDropZone.dataset.zone];
-                    stateArr.push(appropriateComponent);
+                    const stateObjComponent = state[thatDropZone.dataset.zone];
+                    const newBundleComponent = [stateObjComponent.length + 1, appropriateComponent];
+                    stateObjComponent.push(newBundleComponent);
                     setState({
                         ...state,
-                        [thatDropZone.dataset.zone]: stateArr
+                        [thatDropZone.dataset.zone]: stateObjComponent
                     });
                 } else {
                     //если зона не main, то перезаписываем
-                    setState({ ...state, [thatDropZone.dataset.zone]: [appropriateComponent] });
+                    setState({
+                        ...state,
+                        [thatDropZone.dataset.zone]: [[1, appropriateComponent]]
+                    });
                 }
             } else {
                 //если зона пуста, то записываем туда компонент
-                setState({ ...state, [thatDropZone.dataset.zone]: [appropriateComponent] });
+                setState({
+                    ...state,
+                    [thatDropZone.dataset.zone]: [[1, appropriateComponent]]
+                });
             }
         }
     };
@@ -59,13 +66,18 @@ function DragZones({ category, currentNode }) {
         return temp;
     };
     const checkClick = e => {
-        e.stopPropagation(); // отменяем всплытие событий выше
         if (e.target.dataset.btn) {
+            console.log("КЛИК ПО КНОПКЕ ТАРГЕТ", e.target);
+            console.log("КЛИК ПО КНОПКЕ СТЕЙТ", state);
             //обрабатываем клики только по кнопке
             const thatComponent = e.target.parentNode; //получаем компонент
+            console.log("КОМПОНЕНТ", thatComponent);
             const thatDataAttrZone = thatComponent.parentNode.dataset.zone; //получаем дропзону
-            state[thatDataAttrZone].forEach((iterComponent, index) => {
-                if (iterComponent.name === thatComponent.dataset.name) {
+            state[thatDataAttrZone].forEach(([key], index) => {
+                console.log("ЦИКЛ КОМПОНЕНТ", key);
+                console.log("КЕЙ КОМПОНЕНТ", thatComponent.dataset.key);
+                if (String(key) === thatComponent.dataset.key) {
+                    console.log("СОВПАЛО СТЕЙТ", state);
                     //нашли компонент в массиве отображенных
                     const stateArr = state[thatDataAttrZone]; //склонировали стейт
                     stateArr.splice(index, 1); //удалили из массива
@@ -88,13 +100,20 @@ function DragZones({ category, currentNode }) {
             className="drag-zone"
         >
             <header data-zone="header" className="drag-zone__header">
-                {state.header && state.header.map((Component, id) => <Component key={id} />)}
+                {state.header &&
+                    state.header.map(([key, Component], id) => (
+                        <Component iterKey={key} key={id} />
+                    ))}
             </header>
             <main data-zone="main" className="drag-zone__main">
-                {state.main && state.main.map((Component, id) => <Component key={id} />)}
+                {state.main &&
+                    state.main.map(([key, Component], id) => <Component iterKey={key} key={id} />)}
             </main>
             <footer data-zone="footer" className="drag-zone__footer">
-                {state.footer && state.footer.map((Component, id) => <Component key={id} />)}
+                {state.footer &&
+                    state.footer.map(([key, Component], id) => (
+                        <Component iterKey={key} key={id} />
+                    ))}
             </footer>
         </div>
     );
