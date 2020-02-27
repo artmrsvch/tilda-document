@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { category } from "./settigs";
 import DragZones from "./DragZones";
+import { DragDropContext } from "react-beautiful-dnd";
 
 function Draggable() {
     const [state, setState] = useState({ subArray: null, currentNode: null });
@@ -82,7 +83,9 @@ function Draggable() {
                             ))}
                     </ul>
                 </div>
-                <DragZones category={category} currentNode={state.currentNode} />
+                <DragDropContext>
+                    <DragZones category={category} currentNode={state.currentNode} />
+                </DragDropContext>
             </div>
         </section>
     );
