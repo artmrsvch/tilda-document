@@ -8,6 +8,9 @@
 }
 .mainOne {
     background-color: darkseagreen;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .mainTwo {
     background-color: darkslateblue;

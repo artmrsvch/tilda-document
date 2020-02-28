@@ -12,6 +12,9 @@
 .component:hover .close {
     display: block;
 }
+.component:hover .knopka01 {
+    display: inline-block;
+}
 .container {
     box-sizing: border-box;
     width: 100%;
@@ -69,6 +72,7 @@
     flex-direction: column;
 }
 .drag-zone {
+    position: relative;
     box-sizing: border-box;
     padding: 5px;
     overflow: auto;

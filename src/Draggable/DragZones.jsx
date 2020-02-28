@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ControlChanges from "./ControlChanges";
 
 function DragZones({ category, currentNode }) {
-    const [state, setState] = useState({ header: [], footer: [], main: [] });
+    const [state, setState] = useState({ count: 1, header: [], footer: [], main: [] });
     const dragOver = e => e.preventDefault(); //без этого не работает дроп
     const dragDrop = ({ target }) => {
         const thatDropZone = zoneSearh(target); //получаем дропзону
@@ -15,26 +15,31 @@ function DragZones({ category, currentNode }) {
                     //разрешаем добавлять несколько компонентов только в main
                     const stateObjComponent = state[thatDropZone.dataset.zone];
                     const newBundleComponent = {
-                        key: stateObjComponent.length + 1,
+                        key: state.count + 1,
                         Component: appropriateComponent
                     };
                     stateObjComponent.push(newBundleComponent);
                     setState({
                         ...state,
+                        count: state.count + 1,
                         [thatDropZone.dataset.zone]: stateObjComponent
                     });
                 } else {
                     //если  зона не main, то перезаписываем
                     setState({
                         ...state,
-                        [thatDropZone.dataset.zone]: [{ key: 1, Component: appropriateComponent }]
+                        [thatDropZone.dataset.zone]: [
+                            { key: state.count, Component: appropriateComponent }
+                        ]
                     });
                 }
             } else {
                 //если зона пуста, то записываем туда компонент
                 setState({
                     ...state,
-                    [thatDropZone.dataset.zone]: [{ key: 1, Component: appropriateComponent }]
+                    [thatDropZone.dataset.zone]: [
+                        { key: state.count, Component: appropriateComponent }
+                    ]
                 });
             }
         }
@@ -80,40 +85,8 @@ function DragZones({ category, currentNode }) {
                 }
             });
         }
-        if (e.target.dataset.btn === "btn-move") {
-        }
-    };
-    const reorder = (list, startIndex, endIndex) => {
-        //сортировка массива после дропа элемента
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-
-        return result;
     };
 
-    const getItemStyle = (isDragging, draggableStyle) => ({
-        // some basic styles to make the items look a bit nicer
-        userSelect: "none",
-        margin: `0 0 ${8}px 0`,
-        height: "100%",
-        background: isDragging ? "lightgreen" : "grey", //смена бэкраунда компонента который переносится
-        ...draggableStyle //пропсы реализации всей анимации драга
-    });
-
-    const getListStyle = isDraggingOver => ({
-        background: isDraggingOver ? "lightblue" : "lightgrey"
-    });
-    const onDragEnd = result => {
-        if (!result.destination) {
-            //eсли дроп был мимо не в дропзоне main
-            return;
-        }
-        //переорганизовываем массив
-        const items = reorder(state.main, result.source.index, result.destination.index);
-
-        setState({ ...state, main: items });
-    };
     return (
         <div
             data-global="global"
@@ -122,53 +95,7 @@ function DragZones({ category, currentNode }) {
             onClick={checkClick}
             className="drag-zone"
         >
-            <header data-zone="header" className="drag-zone__header">
-                {state.header &&
-                    state.header.map(({ key, Component }, id) => (
-                        <Component iterKey={key} key={id} />
-                    ))}
-            </header>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable">
-                    {(
-                        provided, //provider - реализации dnd,
-                        snapshot // snapshot-переменные состояний dnd
-                    ) => (
-                        <main
-                            {...provided.droppableProps} // пропсы для анимирования переноса
-                            ref={provided.innerRef} //ссылка на дом узел(референс)
-                            className="drag-zone__main"
-                            data-zone="main"
-                            //style={getListStyle(snapshot.isDraggingOver)} //смена бэкграунда приактивном dnd
-                        >
-                            {state.main.map(({ key, Component }, index) => (
-                                <Draggable key={`${key}`} draggableId={`${key}`} index={index}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={getItemStyle(
-                                                snapshot.isDragging,
-                                                provided.draggableProps.style
-                                            )}
-                                        >
-                                            {<Component iterKey={key} />}
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </main>
-                    )}
-                </Droppable>
-            </DragDropContext>
-            <footer data-zone="footer" className="drag-zone__footer">
-                {state.footer &&
-                    state.footer.map(({ key, Component }, id) => (
-                        <Component iterKey={key} key={id} />
-                    ))}
-            </footer>
+            <ControlChanges dropZoneSetState={setState} dropZoneState={state} />
         </div>
     );
 }

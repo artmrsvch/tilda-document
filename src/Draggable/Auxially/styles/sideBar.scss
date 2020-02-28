@@ -1,0 +1,9 @@
+.sideBar {
+    position: fixed;
+    background-color: bisque;
+    top: 50%;
+    width: 0;
+    height: 400px;
+    left: 0;
+    transform: translateY(-50%);
+}
