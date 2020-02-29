@@ -16,7 +16,8 @@ function DragZones({ category, currentNode }) {
                     const stateObjComponent = state[thatDropZone.dataset.zone];
                     const newBundleComponent = {
                         key: state.count + 1,
-                        Component: appropriateComponent
+                        Component: appropriateComponent,
+                        name: currentNode.target
                     };
                     stateObjComponent.push(newBundleComponent);
                     setState({
@@ -29,7 +30,11 @@ function DragZones({ category, currentNode }) {
                     setState({
                         ...state,
                         [thatDropZone.dataset.zone]: [
-                            { key: state.count, Component: appropriateComponent }
+                            {
+                                key: state.count,
+                                Component: appropriateComponent,
+                                name: currentNode.target
+                            }
                         ]
                     });
                 }
@@ -38,7 +43,11 @@ function DragZones({ category, currentNode }) {
                 setState({
                     ...state,
                     [thatDropZone.dataset.zone]: [
-                        { key: state.count, Component: appropriateComponent }
+                        {
+                            key: state.count,
+                            Component: appropriateComponent,
+                            name: currentNode.target
+                        }
                     ]
                 });
             }
@@ -95,7 +104,11 @@ function DragZones({ category, currentNode }) {
             onClick={checkClick}
             className="drag-zone"
         >
-            <ControlChanges dropZoneSetState={setState} dropZoneState={state} />
+            <ControlChanges
+                zoneSearh={zoneSearh}
+                dropZoneSetState={setState}
+                dropZoneState={state}
+            />
         </div>
     );
 }

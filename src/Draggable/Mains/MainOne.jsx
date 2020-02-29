@@ -8,16 +8,19 @@ function MainOne({ iterKey, saveComponentsData, componentsData }) {
         (!componentsData || !componentsData.MainOne) &&
             saveComponentsData({
                 componentName: "MainOne",
-                nodes: {
-                    title: {
+                //key
+                nodes: [
+                    {
                         name: "Заголовок",
-                        value: ""
+                        value: "",
+                        type: "input"
                     },
-                    paragraph: {
+                    {
                         name: "Описание",
-                        value: ""
+                        value: "",
+                        type: "area"
                     }
-                }
+                ]
             });
     }, []);
     return (
@@ -26,13 +29,13 @@ function MainOne({ iterKey, saveComponentsData, componentsData }) {
             <h2 className="mainOne__title">
                 {(componentsData &&
                     componentsData.MainOne &&
-                    componentsData.MainOne.nodes.title.value) ||
+                    componentsData.MainOne.nodes[0].value) ||
                     "Custom title"}
             </h2>
             <p className="mainOne__text">
                 {(componentsData &&
                     componentsData.MainOne &&
-                    componentsData.MainOne.nodes.paragraph.value) ||
+                    componentsData.MainOne.nodes[1].value) ||
                     initialText}
             </p>
         </div>

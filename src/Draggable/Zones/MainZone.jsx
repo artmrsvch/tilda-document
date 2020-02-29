@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-function MainZone({ dropZoneSetState, dropZoneState, saveComponentsData, componentsData }) {
+function MainZone({
+    dropZoneSetState,
+    dropZoneState,
+    saveComponentsData,
+    componentsData,
+    catchClickForEdit
+}) {
     const [state, setState] = useState({});
 
     const reorder = (list, startIndex, endIndex) => {
@@ -40,6 +46,7 @@ function MainZone({ dropZoneSetState, dropZoneState, saveComponentsData, compone
                     snapshot // snapshot-переменные состояний dnd
                 ) => (
                     <main
+                        onClick={catchClickForEdit}
                         {...provided.droppableProps} // пропсы для анимирования переноса
                         ref={provided.innerRef} //ссылка на дом узел(референс)
                         className="drag-zone__main"

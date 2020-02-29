@@ -8,7 +8,7 @@ function ControlChanges({ dropZoneSetState, dropZoneState }) {
     const [stateMain, setStateMain] = useState();
     const [stateHeader, setStateHeader] = useState();
     const [stateFooter, setStateFooter] = useState();
-
+    const [clickedCompo, setClickedCompo] = useState(); //сохранение кликнутого компонента
     const saveMainComponentsData = data => {
         setStateMain({ ...stateMain, [data.componentName]: data });
     };
@@ -18,9 +18,21 @@ function ControlChanges({ dropZoneSetState, dropZoneState }) {
     const saveFooterComponentsData = data => {
         setStateFooter({ ...stateFooter, [data.componentName]: data });
     };
+    const searchEditComponent = name => {
+        // Поиск выбранного компонента
+        let componentStateSettings;
+        for (let componentInfo in stateMain) {
+            if (stateMain[componentInfo].componentName === name) {
+                componentStateSettings = stateMain[componentInfo];
+                break;
+            }
+        }
+        return componentStateSettings;
+    };
     const catchClickForEdit = ({ target }) => {
+        // Клик по кнопке edit
         if (target.dataset.btn === "btn-edit") {
-            console.log("EDIT");
+            setClickedCompo(searchEditComponent(target.parentNode.dataset.name));
         }
     };
     return (
@@ -31,6 +43,7 @@ function ControlChanges({ dropZoneSetState, dropZoneState }) {
                 dropZoneState={dropZoneState}
             />
             <MainZone
+                catchClickForEdit={catchClickForEdit}
                 saveComponentsData={saveMainComponentsData}
                 componentsData={stateMain}
                 dropZoneSetState={dropZoneSetState}
@@ -41,7 +54,12 @@ function ControlChanges({ dropZoneSetState, dropZoneState }) {
                 saveComponentsData={saveFooterComponentsData}
                 dropZoneState={dropZoneState}
             />
-            <SideBar dataComponent />
+            <SideBar
+                closeData={setClickedCompo}
+                data={clickedCompo}
+                storage={stateMain}
+                setValues={setStateMain}
+            />
         </>
     );
 }
