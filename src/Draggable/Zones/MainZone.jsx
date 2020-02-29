@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function MainZone({
@@ -8,8 +8,6 @@ function MainZone({
     componentsData,
     catchClickForEdit
 }) {
-    const [state, setState] = useState({});
-
     const reorder = (list, startIndex, endIndex) => {
         //сортировка массива после дропа элемента
         const result = Array.from(list);

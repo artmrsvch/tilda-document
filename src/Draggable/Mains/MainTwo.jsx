@@ -5,9 +5,9 @@ function MainTwo({ iterKey, saveComponentsData, componentsData }) {
     const initialText =
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, amet asperiores similique, doloremque veniam quasi molestias tempora debitis, eveniet impedit quam. Doloremque eius molestiae nisi ducimus accusamus, neque et repellendus!";
     useEffect(() => {
-        (!componentsData || !componentsData.MainTwo) &&
+        (!componentsData || !componentsData[`MainTwo${iterKey}`]) &&
             saveComponentsData({
-                componentName: "MainTwo",
+                componentName: `MainTwo${iterKey}`,
                 nodes: [
                     {
                         name: "Заголовок 1",
@@ -33,30 +33,39 @@ function MainTwo({ iterKey, saveComponentsData, componentsData }) {
             });
     }, []);
     return (
-        <div data-key={iterKey} data-name="MainTwo" className="mainTwo mains component">
+        <div
+            data-key={iterKey}
+            data-name={
+                (componentsData &&
+                    componentsData[`MainTwo${iterKey}`] &&
+                    componentsData[`MainTwo${iterKey}`].componentName) ||
+                "MainTwo"
+            }
+            className="mainTwo mains component"
+        >
             <ButtonDelete />
             <h2 className="mainTwo__title">
                 {(componentsData &&
-                    componentsData.MainTwo &&
-                    componentsData.MainTwo.nodes[0].value) ||
+                    componentsData[`MainTwo${iterKey}`] &&
+                    componentsData[`MainTwo${iterKey}`].nodes[0].value) ||
                     "Custom title"}
             </h2>
             <h2 className="mainTwo__title">
                 {(componentsData &&
-                    componentsData.MainTwo &&
-                    componentsData.MainTwo.nodes[1].value) ||
+                    componentsData[`MainTwo${iterKey}`] &&
+                    componentsData[`MainTwo${iterKey}`].nodes[1].value) ||
                     "And one more  custom title"}
             </h2>
             <p className="mainTwo__text">
                 {(componentsData &&
-                    componentsData.MainTwo &&
-                    componentsData.MainTwo.nodes[2].value) ||
+                    componentsData[`MainTwo${iterKey}`] &&
+                    componentsData[`MainTwo${iterKey}`].nodes[2].value) ||
                     initialText}
             </p>
             <p className="mainTwo__text">
                 {(componentsData &&
-                    componentsData.MainTwo &&
-                    componentsData.MainTwo.nodes[3].value) ||
+                    componentsData[`MainTwo${iterKey}`] &&
+                    componentsData[`MainTwo${iterKey}`].nodes[3].value) ||
                     initialText}
             </p>
         </div>

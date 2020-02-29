@@ -5,10 +5,11 @@ function MainOne({ iterKey, saveComponentsData, componentsData }) {
     const initialText =
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, amet asperiores similique, doloremque veniam quasi molestias tempora debitis, eveniet impedit quam. Doloremque eius molestiae nisi ducimus accusamus, neque et repellendus!";
     useEffect(() => {
-        (!componentsData || !componentsData.MainOne) &&
+        //Инизиализация компонента в стейте контроля
+        //Если данные о компоненте уже есть в стейте, то игнорирует инициализацию
+        (!componentsData || !componentsData[`MainOne${iterKey}`]) &&
             saveComponentsData({
-                componentName: "MainOne",
-                //key
+                componentName: `MainOne${iterKey}`,
                 nodes: [
                     {
                         name: "Заголовок",
@@ -24,18 +25,27 @@ function MainOne({ iterKey, saveComponentsData, componentsData }) {
             });
     }, []);
     return (
-        <div data-key={iterKey} data-name="MainOne" className="mainOne mains component">
+        <div
+            data-key={iterKey}
+            data-name={
+                (componentsData &&
+                    componentsData[`MainOne${iterKey}`] &&
+                    componentsData[`MainOne${iterKey}`].componentName) ||
+                "MainOne"
+            }
+            className="mainOne mains component"
+        >
             <ButtonDelete />
             <h2 className="mainOne__title">
                 {(componentsData &&
-                    componentsData.MainOne &&
-                    componentsData.MainOne.nodes[0].value) ||
+                    componentsData[`MainOne${iterKey}`] &&
+                    componentsData[`MainOne${iterKey}`].nodes[0].value) ||
                     "Custom title"}
             </h2>
             <p className="mainOne__text">
                 {(componentsData &&
-                    componentsData.MainOne &&
-                    componentsData.MainOne.nodes[1].value) ||
+                    componentsData[`MainOne${iterKey}`] &&
+                    componentsData[`MainOne${iterKey}`].nodes[1].value) ||
                     initialText}
             </p>
         </div>

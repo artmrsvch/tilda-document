@@ -5,6 +5,7 @@ function DragZones({ category, currentNode }) {
     const [state, setState] = useState({ count: 1, header: [], footer: [], main: [] });
     const dragOver = e => e.preventDefault(); //без этого не работает дроп
     const dragDrop = ({ target }) => {
+        console.log(state);
         const thatDropZone = zoneSearh(target); //получаем дропзону
         if (thatDropZone.dataset.zone === currentNode.category) {
             //разрешает дропать определенные категории только в соответ. зоны
@@ -52,6 +53,25 @@ function DragZones({ category, currentNode }) {
                 });
             }
         }
+    };
+    const createArrForJson = arr => {
+        let tempArr = [];
+        arr.forEach(({ name, key }) => {
+            tempArr.push({ name, key });
+        });
+        return tempArr;
+    };
+    const saveGlobalSettings = objectProps => {
+        const globalBandle = {
+            ...objectProps,
+            dropComponentData: {
+                ...state,
+                header: createArrForJson(state.header),
+                main: createArrForJson(state.main),
+                footer: createArrForJson(state.footer)
+            }
+        };
+        console.log(globalBandle);
     };
     const zoneSearh = target => {
         //рекурсивный обход DOM, поиск дроп зоны, возвращает зону
@@ -108,6 +128,7 @@ function DragZones({ category, currentNode }) {
                 zoneSearh={zoneSearh}
                 dropZoneSetState={setState}
                 dropZoneState={state}
+                saveGlobalSettings={saveGlobalSettings}
             />
         </div>
     );
