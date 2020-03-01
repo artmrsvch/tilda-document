@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import SideBar from "./Auxially/SideBar";
 import { MainZone, HeaderZone, FooterZone } from "./Zones/index";
 
-function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings }) {
+function ControlChanges({
+    dropZoneSetState,
+    dropZoneState,
+    saveGlobalSettings,
+    zoneSearh,
+    initialProps
+}) {
     //Принимаем из редакса распаршенный json с данными и делаем инициализацию в стейт
     //При помощи паттерна render-props реализуется весь рендер данных в компонентах
-    const [stateMain, setStateMain] = useState();
-    const [stateHeader, setStateHeader] = useState();
-    const [stateFooter, setStateFooter] = useState();
+    const [stateMain, setStateMain] = useState(initialProps.main);
+    const [stateHeader, setStateHeader] = useState(initialProps.header);
+    const [stateFooter, setStateFooter] = useState(initialProps.footer);
     const [clickedCompo, setClickedCompo] = useState(); //сохранение кликнутого компонента
 
     const saveMainComponentsData = data => {
@@ -19,12 +25,12 @@ function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings })
     const saveFooterComponentsData = data => {
         setStateFooter({ ...stateFooter, [data.componentName]: data });
     };
-    const searchEditComponent = name => {
+    const searchEditComponent = (name, thatState) => {
         // Поиск выбранного компонента
         let componentStateSettings;
-        for (let componentInfo in stateMain) {
-            if (stateMain[componentInfo].componentName === name) {
-                componentStateSettings = stateMain[componentInfo];
+        for (let componentInfo in thatState) {
+            if (thatState[componentInfo].componentName === name) {
+                componentStateSettings = thatState[componentInfo];
                 break;
             }
         }
@@ -44,7 +50,20 @@ function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings })
     const catchClickForEdit = ({ target }) => {
         // Клик по кнопке edit
         if (target.dataset.btn === "btn-edit") {
-            setClickedCompo(searchEditComponent(target.parentNode.dataset.name));
+            const zone = zoneSearh(target.parentNode).dataset.zone;
+            const desiredState =
+                zone === "header"
+                    ? { desState: stateHeader, desSetState: setStateHeader }
+                    : zone === "main"
+                    ? { desState: stateMain, desSetState: setStateMain }
+                    : zone === "footer"
+                    ? { desState: stateFooter, desSetState: setStateFooter }
+                    : null;
+            const forAsideBandle = {
+                ...searchEditComponent(target.parentNode.dataset.name, desiredState.desState),
+                ...desiredState
+            };
+            setClickedCompo(forAsideBandle);
         }
         //Клик по сохранению
         if (target.dataset.btn === "btn-save") {
@@ -54,6 +73,7 @@ function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings })
     return (
         <>
             <HeaderZone
+                catchClickForEdit={catchClickForEdit}
                 componentsData={stateHeader}
                 saveComponentsData={saveHeaderComponentsData}
                 dropZoneState={dropZoneState}
@@ -66,6 +86,7 @@ function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings })
                 dropZoneState={dropZoneState}
             />
             <FooterZone
+                catchClickForEdit={catchClickForEdit}
                 componentsData={stateFooter}
                 saveComponentsData={saveFooterComponentsData}
                 dropZoneState={dropZoneState}

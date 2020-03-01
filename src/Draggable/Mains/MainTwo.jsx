@@ -39,7 +39,7 @@ function MainTwo({ iterKey, saveComponentsData, componentsData }) {
                 (componentsData &&
                     componentsData[`MainTwo${iterKey}`] &&
                     componentsData[`MainTwo${iterKey}`].componentName) ||
-                "MainTwo"
+                `MainTwo${iterKey}`
             }
             className="mainTwo mains component"
         >

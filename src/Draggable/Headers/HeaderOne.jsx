@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ButtonDelete from "../Auxially/ButtonDelete";
 
 function HeaderOne({ iterKey, saveComponentsData, componentsData }) {
     useEffect(() => {
@@ -16,6 +17,7 @@ function HeaderOne({ iterKey, saveComponentsData, componentsData }) {
     }, []);
     return (
         <div
+            data-key={iterKey}
             className="headerOne titles component"
             data-name={
                 (componentsData &&
@@ -24,6 +26,7 @@ function HeaderOne({ iterKey, saveComponentsData, componentsData }) {
                 "HeaderOne"
             }
         >
+            <ButtonDelete />
             <h1 className="headerOne__title">
                 {(componentsData &&
                     componentsData[`HeaderOne${iterKey}`] &&

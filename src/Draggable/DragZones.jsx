@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ControlChanges from "./ControlChanges";
+import { initialDragZones, createArrForJson } from "./dataProcessing";
 
 function DragZones({ category, currentNode }) {
-    const [state, setState] = useState({ count: 1, header: [], footer: [], main: [] });
+    const { count, header, footer, main, initialProps } = initialDragZones();
+    const [state, setState] = useState({ count, header, footer, main });
     const dragOver = e => e.preventDefault(); //без этого не работает дроп
     const dragDrop = ({ target }) => {
-        console.log(state);
         const thatDropZone = zoneSearh(target); //получаем дропзону
         if (thatDropZone.dataset.zone === currentNode.category) {
             //разрешает дропать определенные категории только в соответ. зоны
@@ -54,13 +55,7 @@ function DragZones({ category, currentNode }) {
             }
         }
     };
-    const createArrForJson = arr => {
-        let tempArr = [];
-        arr.forEach(({ name, key }) => {
-            tempArr.push({ name, key });
-        });
-        return tempArr;
-    };
+
     const saveGlobalSettings = objectProps => {
         const globalBandle = {
             ...objectProps,
@@ -71,7 +66,7 @@ function DragZones({ category, currentNode }) {
                 footer: createArrForJson(state.footer)
             }
         };
-        console.log(globalBandle);
+        localStorage.usedComponents = JSON.stringify(globalBandle);
     };
     const zoneSearh = target => {
         //рекурсивный обход DOM, поиск дроп зоны, возвращает зону
@@ -87,7 +82,7 @@ function DragZones({ category, currentNode }) {
                 //имя категории в настройках приводим к ловеркейс и проверяем совпадение
                 objectCategory.presents.forEach(objComponet => {
                     //если совпало, то запускаем цикл по списку подкатегорий с компонентами
-                    if (objComponet.subName.toLowerCase() === subCategotyName) {
+                    if (objComponet.subName === subCategotyName) {
                         //совпадение по названию подкатегории
                         temp = objComponet.component; //достаем соответсвующий компонент и записываем в переменную
                     }
@@ -100,7 +95,7 @@ function DragZones({ category, currentNode }) {
         if (e.target.dataset.btn === "btn-close") {
             //обрабатываем клики только по кнопке
             const thatComponent = e.target.parentNode; //получаем компонент
-            const thatDataAttrZone = thatComponent.parentNode.parentNode.dataset.zone; //получаем дропзону
+            const thatDataAttrZone = zoneSearh(thatComponent).dataset.zone; //получаем дропзону
             state[thatDataAttrZone].forEach(({ key }, index) => {
                 if (String(key) === thatComponent.dataset.key) {
                     //нашли компонент в массиве отображенных
@@ -125,6 +120,7 @@ function DragZones({ category, currentNode }) {
             className="drag-zone"
         >
             <ControlChanges
+                initialProps={initialProps}
                 zoneSearh={zoneSearh}
                 dropZoneSetState={setState}
                 dropZoneState={state}

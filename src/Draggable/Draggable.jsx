@@ -13,7 +13,7 @@ function Draggable() {
             //записываем в стейт название категории и подкатегории
             ...state,
             currentNode: {
-                category: state.category,
+                category: state.category.toLowerCase(),
                 target: e.target.dataset.name
             }
         });
@@ -24,7 +24,7 @@ function Draggable() {
         let tempArr;
         category.forEach(objectCategory => {
             //цикл по массиву категорий
-            if (objectCategory.name.toLowerCase() === name) {
+            if (objectCategory.name === name) {
                 //совпадение по названию категории
                 tempArr = objectCategory.presents; //записываем в переменную соответсвующий массив подкатегории
             }
@@ -57,7 +57,7 @@ function Draggable() {
                 <ul className="drag-category">
                     {category.map(({ name }, id) => (
                         <li
-                            data-name={name.toLowerCase()}
+                            data-name={name}
                             key={id}
                             onClick={clickForCategory}
                             className="drag-category__item"
@@ -72,7 +72,7 @@ function Draggable() {
                         {state.subArray &&
                             state.subArray.map(({ subName }, id) => (
                                 <li
-                                    data-name={subName.toLowerCase()}
+                                    data-name={subName}
                                     draggable
                                     onDragStart={dragStart}
                                     key={id}

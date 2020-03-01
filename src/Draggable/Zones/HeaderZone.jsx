@@ -1,8 +1,8 @@
 import React from "react";
 
-function HeaderZone({ dropZoneState, saveComponentsData, componentsData }) {
+function HeaderZone({ catchClickForEdit, dropZoneState, saveComponentsData, componentsData }) {
     return (
-        <header data-zone="header" className="drag-zone__header">
+        <header onClick={catchClickForEdit} data-zone="header" className="drag-zone__header">
             {dropZoneState.header.map(({ key, Component }, id) => (
                 <Component
                     iterKey={key}

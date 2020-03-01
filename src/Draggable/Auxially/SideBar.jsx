@@ -1,6 +1,6 @@
 import React from "react";
 
-function SideBar({ data, setValues, storage, closeData }) {
+function SideBar({ data, closeData }) {
     const handleClick = ({ target }) => {
         target.dataset.btn === "sidebar" && closeData(null);
     };
@@ -12,7 +12,7 @@ function SideBar({ data, setValues, storage, closeData }) {
             ...data,
             nodes: data.nodes
         };
-        setValues({ ...storage, [data.componentName]: updateState });
+        data.desSetState({ ...data.desState, [data.componentName]: updateState });
     };
 
     return (
