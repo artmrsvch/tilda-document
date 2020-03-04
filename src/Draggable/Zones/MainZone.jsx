@@ -29,7 +29,7 @@ function MainZone({
         userSelect: "none",
         margin: `0 0 ${8}px 0`,
         height: "100%",
-        background: isDragging ? "lightgreen" : "grey", //смена бэкраунда компонента который переносится
+        //background: isDragging ? "lightgreen" : "grey", //смена бэкраунда компонента который переносится
         ...draggableStyle //пропсы реализации всей анимации драга
     });
     const getListStyle = isDraggingOver => ({

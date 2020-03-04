@@ -1,32 +1,29 @@
 import { category } from "./settigs";
 
-
 export const initialDragZones = () => {
     let objToState;
     try {
         const store = JSON.parse(localStorage.usedComponents);
         objToState = {
             ...store.dropComponentData,
-            header: parseComponentFromSetting("header", store.dropComponentData.header),
-            main: parseComponentFromSetting("main", store.dropComponentData.main),
-            footer: parseComponentFromSetting("footer", store.dropComponentData.footer),
+            main: parseComponentFromSetting(store.dropComponentData.main),
             initialProps: { ...store.propsComponent }
         };
         return objToState;
     } catch (e) {
         //console.error(e) //оставить для вывода ошибок в консоль
         objToState = {
-            count: 1, header: [], footer: [], main: [], initialProps: {
-                header: null,
-                main: null,
-                footer: null,
+            count: 1,
+            main: [],
+            initialProps: {
+                main: null
             }
         };
         return objToState;
     }
 };
 
-const parseComponentFromSetting = (categoryName, dataArr) => {
+const parseComponentFromSetting = dataArr => {
     let tempArr = [];
     const eachForDataArr = objStore => {
         for (const dataObj of dataArr) {
@@ -38,14 +35,11 @@ const parseComponentFromSetting = (categoryName, dataArr) => {
                 });
             }
         }
-    }
+    };
     category.forEach(objectCategory => {
-        if (objectCategory.name.toLowerCase() === categoryName) {
-
-            objectCategory.presents.forEach(objComponet => {
-                eachForDataArr(objComponet)
-            });
-        }
+        objectCategory.presents.forEach(objComponet => {
+            eachForDataArr(objComponet);
+        });
     });
     return tempArr;
 };

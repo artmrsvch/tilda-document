@@ -1,6 +1,3 @@
-import MainZone from './MainZone'
-import HeaderZone from './HeaderZone'
-import FooterZone from './FooterZone'
+import MainZone from "./MainZone";
 
-export { MainZone, HeaderZone, FooterZone };
-
+export { MainZone };

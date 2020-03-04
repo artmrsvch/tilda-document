@@ -3,57 +3,23 @@ import ControlChanges from "./ControlChanges";
 import { initialDragZones, createArrForJson } from "./dataProcessing";
 
 function DragZones({ category, currentNode }) {
-    const { count, header, footer, main, initialProps } = initialDragZones();
-    const [state, setState] = useState({ count, header, footer, main });
-    const dragOver = e => e.preventDefault(); //без этого не работает дроп
+    const { count, main, initialProps } = initialDragZones();
+    const [state, setState] = useState({ count, main });
+    const dragOver = e => e.preventDefault();
     const dragDrop = ({ target }) => {
-        const thatDropZone = zoneSearh(target); //получаем дропзону
-        if (thatDropZone.dataset.zone === currentNode.category) {
-            //разрешает дропать определенные категории только в соответ. зоны
-            const appropriateComponent = getComponent(currentNode.category, currentNode.target); //получаем нужный компонент для рендера
-            if (state[thatDropZone.dataset.zone].length) {
-                //если в зоне уже есть компонент
-                if (thatDropZone.dataset.zone === "main") {
-                    //разрешаем добавлять несколько компонентов только в main
-                    const stateObjComponent = state[thatDropZone.dataset.zone];
-                    const newBundleComponent = {
-                        key: state.count + 1,
-                        Component: appropriateComponent,
-                        name: currentNode.target
-                    };
-                    stateObjComponent.push(newBundleComponent);
-                    setState({
-                        ...state,
-                        count: state.count + 1,
-                        [thatDropZone.dataset.zone]: stateObjComponent
-                    });
-                } else {
-                    //если  зона не main, то перезаписываем
-                    setState({
-                        ...state,
-                        [thatDropZone.dataset.zone]: [
-                            {
-                                key: state.count,
-                                Component: appropriateComponent,
-                                name: currentNode.target
-                            }
-                        ]
-                    });
-                }
-            } else {
-                //если зона пуста, то записываем туда компонент
-                setState({
-                    ...state,
-                    [thatDropZone.dataset.zone]: [
-                        {
-                            key: state.count,
-                            Component: appropriateComponent,
-                            name: currentNode.target
-                        }
-                    ]
-                });
-            }
-        }
+        const appropriateComponent = getComponent(currentNode.category, currentNode.target);
+        const stateObjComponent = state.main;
+        const newBundleComponent = {
+            key: state.count + 1,
+            Component: appropriateComponent,
+            name: currentNode.target
+        };
+        stateObjComponent.push(newBundleComponent);
+        setState({
+            ...state,
+            count: state.count + 1,
+            main: stateObjComponent
+        });
     };
 
     const saveGlobalSettings = objectProps => {
@@ -61,17 +27,10 @@ function DragZones({ category, currentNode }) {
             ...objectProps,
             dropComponentData: {
                 ...state,
-                header: createArrForJson(state.header),
-                main: createArrForJson(state.main),
-                footer: createArrForJson(state.footer)
+                main: createArrForJson(state.main)
             }
         };
         localStorage.usedComponents = JSON.stringify(globalBandle);
-    };
-    const zoneSearh = target => {
-        //рекурсивный обход DOM, поиск дроп зоны, возвращает зону
-        //если DOMузел имеет атрибут zone, то возвращаем его, иначе идем на уровень выше
-        return target.dataset.zone ? target : zoneSearh(target.parentNode);
     };
     const getComponent = (categoryName, subCategotyName) => {
         //поиск компонента по названию подкатегории, принимаем название категории и навзвание подкатегории
@@ -93,18 +52,14 @@ function DragZones({ category, currentNode }) {
     };
     const checkClick = e => {
         if (e.target.dataset.btn === "btn-close") {
-            //обрабатываем клики только по кнопке
-            const thatComponent = e.target.parentNode; //получаем компонент
-            const thatDataAttrZone = zoneSearh(thatComponent).dataset.zone; //получаем дропзону
-            state[thatDataAttrZone].forEach(({ key }, index) => {
+            const thatComponent = e.target.parentNode;
+            state.main.forEach(({ key }, index) => {
                 if (String(key) === thatComponent.dataset.key) {
-                    //нашли компонент в массиве отображенных
-                    const stateArr = state[thatDataAttrZone]; //склонировали стейт
-                    stateArr.splice(index, 1); //удалили из массива
+                    const stateArr = state.main;
+                    stateArr.splice(index, 1);
                     setState({
-                        //зафиксировали изменения
                         ...state,
-                        [thatDataAttrZone]: stateArr
+                        main: stateArr
                     });
                 }
             });
@@ -121,7 +76,6 @@ function DragZones({ category, currentNode }) {
         >
             <ControlChanges
                 initialProps={initialProps}
-                zoneSearh={zoneSearh}
                 dropZoneSetState={setState}
                 dropZoneState={state}
                 saveGlobalSettings={saveGlobalSettings}
