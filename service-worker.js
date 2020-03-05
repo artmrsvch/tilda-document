@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/tilda-document/precache-manifest.6bd18382f7383f47908cae163c3b7c60.js"
+  "/tilda-document/precache-manifest.33e19f208a8ce5d5c59c20eae8fe6ebc.js"
 );
 
 self.addEventListener('message', (event) => {
