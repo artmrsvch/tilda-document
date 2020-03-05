@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ControlChanges from "./ControlChanges";
 import { initialDragZones, createArrForJson } from "./dataProcessing";
 
-function DragZones({ category, currentNode }) {
+function DragZones({ category, currentNode, isSave, setIsSave }) {
     const { count, main, initialProps } = initialDragZones();
     const [state, setState] = useState({ count, main });
     const dragOver = e => e.preventDefault();
@@ -31,6 +31,7 @@ function DragZones({ category, currentNode }) {
             }
         };
         localStorage.usedComponents = JSON.stringify(globalBandle);
+        setIsSave(null);
     };
     const getComponent = (categoryName, subCategotyName) => {
         //поиск компонента по названию подкатегории, принимаем название категории и навзвание подкатегории
@@ -75,6 +76,7 @@ function DragZones({ category, currentNode }) {
             className="drag-zone"
         >
             <ControlChanges
+                isSave={isSave}
                 initialProps={initialProps}
                 dropZoneSetState={setState}
                 dropZoneState={state}

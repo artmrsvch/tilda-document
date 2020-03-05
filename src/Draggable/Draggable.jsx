@@ -38,6 +38,7 @@ function Draggable() {
         }
     ];
     const [state, setState] = useState({ currentNode: null, icoSvg: arraySvg });
+    const [isSave, setIsSave] = useState(null);
 
     const dragStart = e => {
         //начало движения подкатегории
@@ -57,7 +58,7 @@ function Draggable() {
     const saveDoc = ({ target }) => {
         const clickedNode = svgSearch(target).dataset.svg;
         if (clickedNode === "disk") {
-            console.log("сохранить");
+            setIsSave(true);
         }
     };
     return (
@@ -93,7 +94,12 @@ function Draggable() {
                     </ul>
                 </aside>
                 <DragDropContext>
-                    <DragZones category={category} currentNode={state.currentNode} />
+                    <DragZones
+                        isSave={isSave}
+                        setIsSave={setIsSave}
+                        category={category}
+                        currentNode={state.currentNode}
+                    />
                 </DragDropContext>
             </div>
         </section>

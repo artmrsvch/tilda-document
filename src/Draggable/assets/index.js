@@ -4,8 +4,8 @@ const Brush = fill => {
     return (
         <svg
             fill={fill ? "#05c35a" : "#b1b1b1"}
-            width="22px"
-            height="22px"
+            width="100%"
+            height="100%"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
         >
@@ -21,8 +21,8 @@ const Disk = fill => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="22px"
-            height="22px"
+            width="100%"
+            height="100%"
             version="1.1"
             viewBox="0 0 500 500"
         >
@@ -39,12 +39,12 @@ const Disk = fill => {
 const Finder = fill => {
     return (
         <svg
-            enable-background="new 0 0 512 512"
-            height="22px"
+            enableBackground="new 0 0 512 512"
+            height="100%"
             id="Layer_1"
             version="1.1"
             viewBox="0 0 512 512"
-            width="22px"
+            width="100%"
             xmlns="http://www.w3.org/2000/svg"
         >
             <g>
@@ -59,18 +59,18 @@ const Finder = fill => {
 const Folder = fill => {
     return (
         <svg
-            enable-background="new 0 0 512 512"
-            height="22px"
+            enableBackground="new 0 0 512 512"
+            height="100%"
             id="Layer_1"
             version="1.1"
             viewBox="0 0 512 512"
-            width="22px"
+            width="100%"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path
-                clip-rule="evenodd"
+                clipRule="evenodd"
                 d="M509.353,184.142c-1.49,4.875-65.969,233.052-65.969,233.052  c0,10.726-8.687,19.421-19.403,19.421H20.403C9.687,436.616,1,427.921,1,417.195L70.85,172.49  c2.678-11.572,12.568-19.421,23.284-19.421H486.07C514.751,153.069,512.198,174.835,509.353,184.142z M55.328,156.953L1,347.279  v-221.4V94.805c0-10.726,8.687-19.421,19.403-19.421h151.342c10.716,0,19.403,8.695,19.403,19.421v11.653h232.833  c10.716,0,19.403,8.695,19.403,19.421v11.652H78.611C67.895,137.531,58.006,145.38,55.328,156.953z"
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 fill={fill ? "#05c35a" : "#b1b1b1"}
             />
         </svg>
@@ -79,11 +79,11 @@ const Folder = fill => {
 const Help = fill => {
     return (
         <svg
-            height="24px"
+            height="100%"
             id="Layer_1"
             version="1.1"
             viewBox="0 0 24 24"
-            width="24px"
+            width="100%"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path
@@ -98,8 +98,8 @@ const Quest = fill => {
         <svg
             data-name="Layer 1"
             id="Layer_1"
-            height="24px"
-            width="24px"
+            height="100%"
+            width="100%"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             fill={fill ? "#05c35a" : "#b1b1b1"}

@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import SideBar from "./Auxially/SideBar";
 import { MainZone } from "./Zones/index";
 
-function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings, initialProps }) {
+function ControlChanges({
+    dropZoneSetState,
+    dropZoneState,
+    saveGlobalSettings,
+    initialProps,
+    isSave
+}) {
     //Принимаем из редакса распаршенный json с данными и делаем инициализацию в стейт
     //При помощи паттерна render-props реализуется весь рендер данных в компонентах
     const [stateMain, setStateMain] = useState(initialProps.main);
     const [clickedCompo, setClickedCompo] = useState(); //сохранение кликнутого компонента
-
     const saveMainComponentsData = data => {
         setStateMain({ ...stateMain, [data.componentName]: data });
     };
@@ -31,18 +36,14 @@ function ControlChanges({ dropZoneSetState, dropZoneState, saveGlobalSettings, i
         };
         saveGlobalSettings(bandle);
     };
+    isSave && saveComponentsProps();
     const catchClickForEdit = ({ target }) => {
-        // Клик по кнопке edit
         if (target.dataset.btn === "btn-edit") {
             const forAsideBandle = {
                 ...searchEditComponent(target.parentNode.dataset.name, stateMain),
                 ...{ desState: stateMain, desSetState: setStateMain }
             };
             setClickedCompo(forAsideBandle);
-        }
-        //Клик по сохранению
-        if (target.dataset.btn === "btn-save") {
-            saveComponentsProps();
         }
     };
     return (
