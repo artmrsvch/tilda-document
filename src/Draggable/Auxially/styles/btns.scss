@@ -20,9 +20,11 @@
     background-color: beige;
 }
 .close:before {
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
     transform: translate(-50%, -50%) rotate(45deg);
 }
 .close:after {
+    -webkit-transform: translate(-50%, -50%) rotate(-45deg);
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 .knopka01 {
@@ -45,6 +47,9 @@
     box-shadow: inset rgba(0, 0, 0, 0.6) 0 -2px 5px, inset rgba(252, 255, 255, 0.7) 0 2px 5px,
         rgba(0, 0, 0, 0.8) 0 2px 5px -1px;
     color: rgb(0, 79, 86);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 .knopka01:hover {
