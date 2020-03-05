@@ -34,6 +34,7 @@
 .drag-category {
     height: 100%;
     border-radius: 10px;
+    overflow: hidden;
     width: 370px;
     display: -webkit-box;
     display: flex;
@@ -64,11 +65,8 @@
     width: 100%;
     height: auto;
     overflow: auto;
-    display: -webkit-box;
-    display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    flex-direction: column;
     &::-webkit-scrollbar-track {
         display: none;
         -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
