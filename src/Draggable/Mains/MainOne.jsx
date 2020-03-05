@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import ButtonDelete from "../Auxially/ButtonDelete";
 
 function MainOne({ iterKey, saveComponentsData, componentsData }) {
-    console.log(componentsData, "MAIN ONE COMP");
     const initialText =
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, amet asperiores similique, doloremque veniam quasi molestias tempora debitis, eveniet impedit quam. Doloremque eius molestiae nisi ducimus accusamus, neque et repellendus!";
     useEffect(() => {

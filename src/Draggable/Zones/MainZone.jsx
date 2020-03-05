@@ -6,7 +6,11 @@ function MainZone({
     dropZoneState,
     saveComponentsData,
     componentsData,
-    catchClickForEdit
+    catchClickForEdit,
+    dragOver,
+    dragEnter,
+    dragLeave,
+    dragDrop
 }) {
     const reorder = (list, startIndex, endIndex) => {
         //сортировка массива после дропа элемента
@@ -43,6 +47,10 @@ function MainZone({
                 ) => (
                     <main
                         onClick={catchClickForEdit}
+                        onDragOver={dragOver}
+                        onDragEnter={dragEnter}
+                        onDragLeave={dragLeave}
+                        onDrop={dragDrop}
                         {...provided.droppableProps} // пропсы для анимирования переноса
                         ref={provided.innerRef} //ссылка на дом узел(референс)
                         className="drag-zone__main"

@@ -7,7 +7,11 @@ function ControlChanges({
     dropZoneState,
     saveGlobalSettings,
     initialProps,
-    isSave
+    isSave,
+    dragOver,
+    dragEnter,
+    dragLeave,
+    dragDrop
 }) {
     //Принимаем из редакса распаршенный json с данными и делаем инициализацию в стейт
     //При помощи паттерна render-props реализуется весь рендер данных в компонентах
@@ -54,6 +58,10 @@ function ControlChanges({
                 componentsData={stateMain}
                 dropZoneSetState={dropZoneSetState}
                 dropZoneState={dropZoneState}
+                dragOver={dragOver}
+                dragEnter={dragEnter}
+                dragLeave={dragLeave}
+                dragDrop={dragDrop}
             />
             <SideBar
                 closeData={setClickedCompo}
