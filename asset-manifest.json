@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/tilda-document/static/css/main.997b4243.chunk.css",
-    "main.js": "/tilda-document/static/js/main.fe646551.chunk.js",
-    "main.js.map": "/tilda-document/static/js/main.fe646551.chunk.js.map",
+    "main.js": "/tilda-document/static/js/main.e142792e.chunk.js",
+    "main.js.map": "/tilda-document/static/js/main.e142792e.chunk.js.map",
     "runtime-main.js": "/tilda-document/static/js/runtime-main.4b2f80a4.js",
     "runtime-main.js.map": "/tilda-document/static/js/runtime-main.4b2f80a4.js.map",
     "static/js/2.0b9a669f.chunk.js": "/tilda-document/static/js/2.0b9a669f.chunk.js",
     "static/js/2.0b9a669f.chunk.js.map": "/tilda-document/static/js/2.0b9a669f.chunk.js.map",
     "index.html": "/tilda-document/index.html",
-    "precache-manifest.907bf370267b603ec3c35d0f5826c61d.js": "/tilda-document/precache-manifest.907bf370267b603ec3c35d0f5826c61d.js",
+    "precache-manifest.a4e6971090988c0fd5b6d0acdbca989f.js": "/tilda-document/precache-manifest.a4e6971090988c0fd5b6d0acdbca989f.js",
     "service-worker.js": "/tilda-document/service-worker.js",
     "static/css/main.997b4243.chunk.css.map": "/tilda-document/static/css/main.997b4243.chunk.css.map",
     "static/js/2.0b9a669f.chunk.js.LICENSE.txt": "/tilda-document/static/js/2.0b9a669f.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4b2f80a4.js",
     "static/js/2.0b9a669f.chunk.js",
     "static/css/main.997b4243.chunk.css",
-    "static/js/main.fe646551.chunk.js"
+    "static/js/main.e142792e.chunk.js"
   ]
 }
