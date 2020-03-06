@@ -11,46 +11,43 @@ function DragZones({ category, currentNode, isSave, setIsSave }) {
     const dragEnter = ({ target }) => {
         const targetComponent = recursSearchComponent(target);
         if (!targetComponent) return null;
-        if (targetComponent.dataset.name === state.targetName) {
-        } else {
-            const parent = targetComponent.parentNode;
-            setState({
-                ...state,
-                target: targetComponent,
-                targetName: targetComponent.dataset.name
-            });
-            if (state.target) {
-                const enterParent = state.target.parentNode;
-                enterParent.style.border = "none";
-                enterParent.nextElementSibling &&
-                    (enterParent.nextElementSibling.style.border = "none");
-                enterParent.style.marginBottom = "0";
-            }
-            parent.style.transition = "0.2s";
-            parent.style.border = "2px dashed black";
-            parent.style.marginBottom = "50px";
-            parent.nextElementSibling &&
-                (parent.nextElementSibling.style.border = "2px dashed black");
+        const parent = targetComponent.parentNode;
+        setState({
+            ...state,
+            target: targetComponent,
+            targetName: targetComponent.dataset.name,
+            temp: true
+        });
+        if (state.target) {
+            const enterParent = state.target.parentNode;
+            enterParent.style.borderBottom = "none";
         }
+        parent.style.transition = "0.2s";
+        parent.style.borderBottom = "5px solid black";
     };
     const dragLeave = ({ target }) => {
         const targetComponent = recursSearchComponent(target);
         if (!targetComponent) return null;
-        if (targetComponent.dataset.name === state.targetName) {
-        } else {
-            setState({ ...state, targetName: null, target: null });
+        if (!state.temp) {
+            if (!state.target) return null;
             const enterParent = state.target.parentNode;
-            enterParent.style.border = "none";
-            enterParent.nextElementSibling &&
-                (enterParent.nextElementSibling.style.border = "none");
-            enterParent.style.marginBottom = "0";
+            enterParent.style.borderBottom = "none";
+            setState({ ...state, targetName: null, target: null, temp: null });
+        }
+        if (targetComponent.dataset.name === state.targetName) {
+            setState({
+                ...state,
+                temp: null
+            });
+        } else {
+            setState({ ...state, targetName: null, target: null, temp: null });
+            const enterParent = state.target.parentNode;
+            enterParent.style.borderBottom = "none";
         }
     };
     const dragDrop = ({ target }) => {
         const enterParent = state.target.parentNode;
-        enterParent.style.border = "none";
-        enterParent.nextElementSibling && (enterParent.nextElementSibling.style.border = "none");
-        enterParent.style.marginBottom = "0";
+        enterParent.style.borderBottom = "none";
 
         const appropriateComponent = getComponent(currentNode.category, currentNode.target);
         const stateObjComponent = state.main;
