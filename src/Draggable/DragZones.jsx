@@ -58,6 +58,7 @@ function DragZones({ category, currentNode, isSave, setIsSave }) {
             name: currentNode.target
         };
         const stateObjComponent = dropAfterComponent(newBundleComponent, target);
+        console.log(stateObjComponent);
         setState({
             ...state,
             target: null,
@@ -69,7 +70,10 @@ function DragZones({ category, currentNode, isSave, setIsSave }) {
     const dropAfterComponent = (droppable, target) => {
         const onDropTarget = recursSearchComponent(target);
         const components = Array.from(state.main);
-        if (!onDropTarget) return components.push(droppable);
+        if (!onDropTarget) {
+            components.push(droppable);
+            return components;
+        }
         state.main.forEach(({ name, key }, index) => {
             if (`${name + key}` === onDropTarget.dataset.name) {
                 components.splice(++index, 0, droppable);
