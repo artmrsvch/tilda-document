@@ -46,17 +46,18 @@ function DragZones({ category, currentNode, isSave, setIsSave }) {
         }
     };
     const dragDrop = ({ target }) => {
-        const enterParent = state.target.parentNode;
-        enterParent.style.borderBottom = "none";
-
+        if (state.target) {
+            const enterParent = state.target.parentNode;
+            enterParent.style.borderBottom = "none";
+        }
         const appropriateComponent = getComponent(currentNode.category, currentNode.target);
-        const stateObjComponent = state.main;
+
         const newBundleComponent = {
             key: state.count + 1,
             Component: appropriateComponent,
             name: currentNode.target
         };
-        stateObjComponent.push(newBundleComponent);
+        const stateObjComponent = dropAfterComponent(newBundleComponent, target);
         setState({
             ...state,
             target: null,
@@ -64,6 +65,17 @@ function DragZones({ category, currentNode, isSave, setIsSave }) {
             count: state.count + 1,
             main: stateObjComponent
         });
+    };
+    const dropAfterComponent = (droppable, target) => {
+        const onDropTarget = recursSearchComponent(target);
+        const components = Array.from(state.main);
+        if (!onDropTarget) return components.push(droppable);
+        state.main.forEach(({ name, key }, index) => {
+            if (`${name + key}` === onDropTarget.dataset.name) {
+                components.splice(++index, 0, droppable);
+            }
+        });
+        return components;
     };
     const recursSearchComponent = target => {
         if (target.dataset.zone) return null;
