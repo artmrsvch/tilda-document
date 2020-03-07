@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3afda13ef104254d4ffd9a30f50e3547",
+    "revision": "060a806a52690de5ad893f3e863c334b",
     "url": "/tilda-document/index.html"
   },
   {
-    "revision": "6c19e88ef013435c2ea2",
+    "revision": "737cbaa1d3d9a0e53246",
     "url": "/tilda-document/static/css/main.997b4243.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tilda-document/static/js/2.0b9a669f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6c19e88ef013435c2ea2",
-    "url": "/tilda-document/static/js/main.72217242.chunk.js"
+    "revision": "737cbaa1d3d9a0e53246",
+    "url": "/tilda-document/static/js/main.3732a9a8.chunk.js"
   },
   {
     "revision": "0d0570f499dd3a760517",
