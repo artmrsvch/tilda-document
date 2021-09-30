@@ -56,10 +56,18 @@ function Draggable() {
         return target.dataset.svg ? target : svgSearch(target.parentNode);
     };
     const saveDoc = ({ target }) => {
-        const clickedNode = svgSearch(target).dataset.svg;
-        if (clickedNode === "disk") {
-            setIsSave(true);
+        if (!target) return;
+        const currentTarget = svgSearch(target)
+
+        if (currentTarget?.dataset) {
+            const clickedNode = currentTarget.dataset.svg;
+
+            if (clickedNode === "disk") {
+                setIsSave(true);
+            }
         }
+
+
     };
     return (
         <section className="drag">
