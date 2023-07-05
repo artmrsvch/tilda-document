@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
+import ButtonDelete from "../Auxially/ButtonDelete";
 
-function HeaderOne() {
+function HeaderOne({ iterKey, saveComponentsData, componentsData }) {
+    useEffect(() => {
+        (!componentsData || !componentsData[`HeaderOne${iterKey}`]) &&
+            saveComponentsData({
+                componentName: `HeaderOne${iterKey}`,
+                nodes: [
+                    {
+                        name: "Заголовок",
+                        value: "",
+                        type: "input"
+                    }
+                ]
+            });
+    }, []);
     return (
-        <div className="headerOne titles">
-            <h1 className="headerOne__title">Awesome One Title</h1>
+        <div
+            data-key={iterKey}
+            className="headerOne titles component"
+            data-name={
+                (componentsData &&
+                    componentsData[`HeaderOne${iterKey}`] &&
+                    componentsData[`HeaderOne${iterKey}`].componentName) ||
+                "HeaderOne"
+            }
+        >
+            <ButtonDelete />
+            <h1 className="headerOne__title">
+                {(componentsData &&
+                    componentsData[`HeaderOne${iterKey}`] &&
+                    componentsData[`HeaderOne${iterKey}`].nodes[0].value) ||
+                    "Awesome One Title"}
+            </h1>
         </div>
     );
 }
